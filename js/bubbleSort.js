@@ -1,6 +1,6 @@
-// complexity O(Math.pow(n, 2))
+// complexity worst case - O(Math.pow(n, 2))
 
-const bubbleSort = arr => {
+export const bubbleSort = arr => {
 	const swap = (i, j) => {
 		[arr[i], arr[j]] = [arr[j], arr[i]];
 	};
