@@ -1,6 +1,6 @@
 // complexity worst case O(n log(n))
 
-const mergeSort = (arr, compare = (x, y) => x < y) => {
+const mergeSort = arr => {
 	if (arr.length <= 1) {
 		return arr;
 	}
@@ -8,31 +8,12 @@ const mergeSort = (arr, compare = (x, y) => x < y) => {
 	const { leftHalf, rightHalf } = split(arr);
 
 	return merge(
-		mergeSort(leftHalf, compare),
-		mergeSort(rightHalf, compare),
-		compare
+		mergeSort(leftHalf),
+		mergeSort(rightHalf)
 	);
 };
 
-const split = arr => {
-	const listLength = arr.length;
-
-	if (listLength === 0) {
-		return { leftHalf: [], rightHalf: [] };
-	} else if (listLength === 1) {
-		return { leftHalf: arr, rightHalf: [] };
-	} else {
-		const midPoint = Math.floor(listLength / 2);
-		return {
-			leftHalf: arr.slice(0, midPoint),
-			rightHalf: arr.slice(midPoint)
-		};
-	}
-};
-
-const merge = (left, right, compare) => {
-	const cursor = Math.max(left.length, right.length);
-
+const merge = (left, right) => {
 	let [result, index1, index2] = [[], 0, 0];
 
 	while (true) {
@@ -60,10 +41,28 @@ const merge = (left, right, compare) => {
 	return result;
 };
 
+const split = arr => {
+	const listLength = arr.length;
+
+	if (listLength === 0) {
+		return { leftHalf: [], rightHalf: [] };
+	} else if (listLength === 1) {
+		return { leftHalf: arr, rightHalf: [] };
+	} else {
+		const midPoint = Math.floor(listLength / 2);
+		return {
+			leftHalf: arr.slice(0, midPoint),
+			rightHalf: arr.slice(midPoint)
+		};
+	}
+};
+
+const compare = (x, y) => x < y;
+
 // test cases
 console.log(mergeSort([1, 4, 2, 3]));
-// console.log(mergeSort([10, 99, 3, 56, 23, 11, 1, 12]));
-// console.log(mergeSort([900, -10, -88, 54, -123, -1, 7, 12, -666]));
-// console.log(mergeSort([1, 2]));
-// console.log(mergeSort([1]));
-// console.log(mergeSort([]));
+console.log(mergeSort([10, 99, 3, 56, 23, 11, 1, 12]));
+console.log(mergeSort([900, -10, -88, 54, -123, -1, 7, 12, -666]));
+console.log(mergeSort([1, 2]));
+console.log(mergeSort([1]));
+console.log(mergeSort([]));
