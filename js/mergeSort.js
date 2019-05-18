@@ -62,8 +62,8 @@ const merge = (left, right, compare) => {
 
 // test cases
 console.log(mergeSort([1, 4, 2, 3]));
-// console.log(mergeSort([10, 99, 3, 56, 23, 11, 1, 12]));
-// console.log(mergeSort([900, -10, -88, 54, -123, -1, 7, 12, -666]));
-// console.log(mergeSort([1, 2]));
-// console.log(mergeSort([1]));
-// console.log(mergeSort([]));
+console.log(mergeSort([10, 99, 3, 56, 23, 11, 1, 12]));
+console.log(mergeSort([900, -10, -88, 54, -123, -1, 7, 12, -666]));
+console.log(mergeSort([1, 2]));
+console.log(mergeSort([1]));
+console.log(mergeSort([]));
