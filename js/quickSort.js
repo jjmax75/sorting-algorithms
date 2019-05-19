@@ -1,73 +1,34 @@
 // complexity worst case - O(n ^ 2))
-// attempt based on https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/visualize/
+// attempt based on https://www.geeksforgeeks.org/quick-sort/
+// use algorithm from Introduction to Algorithms book (https://en.wikipedia.org/wiki/Introduction_to_Algorithms)
 
-// **initial quickSort**
-const quickSort = (arr, pivotPosition = 0) => {
-	const arrWithPivot = setPivot(arr);
+const quickSort = (arr, leftIndex, rightIndex) => {
+	if (leftIndex < rightIndex) {
+		const partitionIndex = partition(arr, leftIndex, rightIndex);
 
-	if (arr.length <= 1) {
-		return arr;
+		quickSort(arr, leftIndex, partitionIndex - 1);
+		quickSort(arr, partitionIndex + 1, rightIndex);
 	}
-
-	const sortedPivotArray = findPivotFinalPosition(arr);
-
-	return sortedPivotArray;
+	return arr;
 };
 
-// select the pivot
-// swap pivot with end
-const setPivot = arr => {
-	const arrWithPivot = [...arr];
-	const arrLastIndex = arrWithPivot.length - 1;
-	const middleIndex = Math.floor(arrLastIndex / 2);
-	[arrWithPivot[middleIndex], arrWithPivot[arrLastIndex]] = [
-		arrWithPivot[arrLastIndex],
-		arrWithPivot[middleIndex]
-	];
-	return arrWithPivot;
-};
+const partition = (arr, leftIndex, rightIndex) => {
+	const pivot = arr[rightIndex];
+	let i = leftIndex - 1;
 
-const findPivotFinalPosition = (
-	arr,
-	leftPos = 0,
-	rightPos = arr.length - 2
-) => {
-	const sortedArray = [...arr];
-	const pivotPosition = sortedArray.length - 1;
-
-	while (sortedArray[leftPos] < sortedArray[pivotPosition]) {
-		// move left to right until it hits a number greater or equal to pivot
-		leftPos += 1;
-	}
-
-	while (sortedArray[rightPos] >= sortedArray[pivotPosition]) {
-		// move right to left until it hits the left or finds a value less than pivot
-		rightPos -= 1;
-		if (rightPos < leftPos) {
-			// **break when the bounds right bound crosses left bound**
-			// swap pivot with current left bound
-			[sortedArray[leftPos], sortedArray[pivotPosition]] = [
-				sortedArray[pivotPosition],
-				sortedArray[leftPos]
-			];
-			return { sortedArray, leftPos };
+	for (let j = leftIndex; j < rightIndex; j++) {
+		if (arr[j] <= pivot) {
+			i++;
+			arr = swap(arr, i, j);
 		}
+		arr = swap(arr, i + 1, rightIndex);
+		return i + 1;
 	}
-
-	// swap these values
-	[sortedArray[leftPos], sortedArray[rightPos]] = [
-		sortedArray[rightPos],
-		sortedArray[leftPos]
-	];
-
-	// set left to first in subarray(array - fixed), set right to last in subarray before pivot
-	return findPivotFinalPosition(sortedArray, leftPos, rightPos);
 };
 
-// **partition array to left and right**
-// quickSort(left subArray)
-// quickSort(right subArray)
-// **repeat**
-// if one element it is already sorted
+const swap = (arr, leftIndex, rightIndex) =>
+	([arr[leftIndex], arr[rightIndex]] = [arr[rightIndex], arr[leftIndex]]);
 
-console.log(quickSort([859, 361, 337, 718, 171]));
+const arr = [859, 361, 337, 718, 171];
+console.log(quickSort(arr, 0, 4));
+
