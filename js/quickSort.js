@@ -1,29 +1,40 @@
 // complexity worst case - O(n ^ 2))
-// attempt based on https://www.geeksforgeeks.org/quick-sort/
-// use algorithm from Introduction to Algorithms book (https://en.wikipedia.org/wiki/Introduction_to_Algorithms)
+// js-example from https://www.guru99.com/quicksort-in-javascript.html
 
 const quickSort = (arr, leftIndex, rightIndex) => {
-	if (leftIndex < rightIndex) {
-		const partitionIndex = partition(arr, leftIndex, rightIndex);
-
-		quickSort(arr, leftIndex, partitionIndex - 1);
-		quickSort(arr, partitionIndex + 1, rightIndex);
+	if (arr.length > 1) {
+		const index = partition(arr, leftIndex, rightIndex);
+		if (leftIndex < index - 1) {
+			quickSort(arr, leftIndex, index - 1);
+		}
+		if (index < rightIndex) {
+			quickSort(arr, index, rightIndex);
+		}
 	}
 	return arr;
 };
 
 const partition = (arr, leftIndex, rightIndex) => {
-	const pivot = arr[rightIndex];
-	let i = leftIndex - 1;
+	const pivot = arr[Math.floor((leftIndex + rightIndex) / 2)];
+	let i = leftIndex;
+	let j = rightIndex;
 
-	for (let j = leftIndex; j < rightIndex; j++) {
-		if (arr[j] <= pivot) {
+	while (i <= j) {
+		while (arr[i] < pivot) {
 			i++;
-			arr = swap(arr, i, j);
 		}
-		arr = swap(arr, i + 1, rightIndex);
-		return i + 1;
+
+		while (arr[j] > pivot) {
+			j--;
+		}
+
+		if (i <= j) {
+			swap(arr, i, j);
+			i++;
+			j--;
+		}
 	}
+	return i;
 };
 
 const swap = (arr, leftIndex, rightIndex) =>
@@ -31,4 +42,3 @@ const swap = (arr, leftIndex, rightIndex) =>
 
 const arr = [859, 361, 337, 718, 171];
 console.log(quickSort(arr, 0, 4));
-
